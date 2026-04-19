@@ -9,21 +9,21 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const PROJECTS = [
   {
     number: "01",
+    title: "P!nga Photography",
+    description:
+      "A comissioned portfolio and booking website for local Sydney artist and photographer Paul Pinga Matereke. Shows a selection ofphotography, shot on film and digital.",
+    href: "https://pinga.photos",
+    label: "pinga.photos",
+    tags: ["Next.js", "Photography", "Design systems", "CMS"],
+  },
+  {
+    number: "02",
     title: "Financial Visualisation Demo",
     description:
       "Portfolio workbench and graph gallery. Virtualised table with D3 brush charts and six canvas/SVG exhibits — LTTB downsampling, force simulation, crossfilter scatter, and parallel coordinates.",
     href: "https://demos.mzl-au.dev",
     label: "demos.mzl-au.dev",
     tags: ["D3 v7", "TanStack", "React 19", "Canvas 2D"],
-  },
-  {
-    number: "02",
-    title: "Photography",
-    description:
-      "A curated selection of photography. Shot on film and digital across Sydney and abroad.",
-    href: "https://pinga.photos",
-    label: "pinga.photos",
-    tags: ["Next.js", "Photography"],
   },
   {
     number: "03",
@@ -114,13 +114,15 @@ export default function LinksSection() {
             flexWrap: "wrap",
           }}
         >
-          <span style={{
-            fontFamily: "var(--font-mono, monospace)",
-            fontSize: "0.6rem",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "#AAA",
-          }}>
+          <span
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.6rem",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "#AAA",
+            }}
+          >
             Michael Lin · Sydney · 2025
           </span>
           <a
@@ -134,8 +136,12 @@ export default function LinksSection() {
               textDecoration: "none",
               transition: "opacity 0.2s",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.65"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "0.65";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "1";
+            }}
           >
             hi@mzl.au →
           </a>
@@ -145,7 +151,7 @@ export default function LinksSection() {
   );
 }
 
-function ProjectRow({ project }: { project: typeof PROJECTS[number] }) {
+function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -170,51 +176,60 @@ function ProjectRow({ project }: { project: typeof PROJECTS[number] }) {
         }}
       >
         {/* Number */}
-        <span style={{
-          fontFamily: "var(--font-mono, monospace)",
-          fontSize: "0.6rem",
-          letterSpacing: "0.15em",
-          color: "#BBB",
-          paddingTop: 5,
-          minWidth: 24,
-        }}>
+        <span
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.6rem",
+            letterSpacing: "0.15em",
+            color: "#BBB",
+            paddingTop: 5,
+            minWidth: 24,
+          }}
+        >
           {project.number}
         </span>
 
         {/* Body */}
         <div>
-          <h3 style={{
-            fontFamily: "var(--font-display, 'Bebas Neue', sans-serif)",
-            fontSize: "clamp(22px, 3vw, 34px)",
-            letterSpacing: "0.03em",
-            color: hovered ? GREEN : "#1A1A1A",
-            transition: "color 0.2s",
-            margin: "0 0 8px",
-            lineHeight: 1,
-          }}>
+          <h3
+            style={{
+              fontFamily: "var(--font-display, 'Bebas Neue', sans-serif)",
+              fontSize: "clamp(22px, 3vw, 34px)",
+              letterSpacing: "0.03em",
+              color: hovered ? GREEN : "#1A1A1A",
+              transition: "color 0.2s",
+              margin: "0 0 8px",
+              lineHeight: 1,
+            }}
+          >
             {project.title}
           </h3>
-          <p style={{
-            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-            fontSize: "clamp(13px, 1.1vw, 15px)",
-            color: "#666",
-            lineHeight: 1.65,
-            maxWidth: 520,
-            marginBottom: 12,
-          }}>
+          <p
+            style={{
+              fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+              fontSize: "clamp(13px, 1.1vw, 15px)",
+              color: "#666",
+              lineHeight: 1.65,
+              maxWidth: 520,
+              marginBottom: 12,
+            }}
+          >
             {project.description}
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {project.tags.map((tag) => (
-              <span key={tag} style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: "0.52rem",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "#999",
-                border: "1px solid #DDD",
-                padding: "3px 7px",
-              }}>
+              <span
+                key={tag}
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "0.52rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "#999",
+                  border: "1px solid #DDD",
+                  padding: "3px 7px",
+                }}
+              >
                 {tag}
               </span>
             ))}
@@ -222,14 +237,16 @@ function ProjectRow({ project }: { project: typeof PROJECTS[number] }) {
         </div>
 
         {/* Arrow */}
-        <div style={{
-          paddingTop: 4,
-          flexShrink: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          gap: 4,
-        }}>
+        <div
+          style={{
+            paddingTop: 4,
+            flexShrink: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: 4,
+          }}
+        >
           <motion.span
             animate={{ x: hovered ? 4 : 0 }}
             transition={{ duration: 0.18 }}
@@ -243,14 +260,16 @@ function ProjectRow({ project }: { project: typeof PROJECTS[number] }) {
           >
             →
           </motion.span>
-          <span style={{
-            fontFamily: "var(--font-mono, monospace)",
-            fontSize: "0.55rem",
-            letterSpacing: "0.1em",
-            color: hovered ? GREEN : "#AAA",
-            transition: "color 0.2s",
-            whiteSpace: "nowrap",
-          }}>
+          <span
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.55rem",
+              letterSpacing: "0.1em",
+              color: hovered ? GREEN : "#AAA",
+              transition: "color 0.2s",
+              whiteSpace: "nowrap",
+            }}
+          >
             {project.label}
           </span>
         </div>
