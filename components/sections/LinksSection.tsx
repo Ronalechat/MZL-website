@@ -81,7 +81,7 @@ export default function LinksSection() {
               margin: 0,
             }}
           >
-            WHAT I&apos;VE BUILT.
+            BUILT.
           </motion.h2>
         </div>
 
