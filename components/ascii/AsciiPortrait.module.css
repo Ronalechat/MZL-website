@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+  user-select: none;
+  display: inline-block;
+  transition: filter 0.3s ease;
+}
+
+.container:hover {
+  filter: brightness(1.25);
+}
+
+.canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
