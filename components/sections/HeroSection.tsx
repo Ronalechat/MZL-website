@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import styles from './HeroSection.module.css';
 
 const GREEN = "#4F7B35";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -16,7 +17,7 @@ export default function HeroSection() {
   });
 
   // Text slides up and fades as you scroll out of the hero
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-28%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-77%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
@@ -30,6 +31,7 @@ export default function HeroSection() {
         overflow: "hidden",
       }}
     >
+
       {/* Portrait — centered, no background treatment, green shows through */}
       <div
         aria-hidden
@@ -52,16 +54,20 @@ export default function HeroSection() {
           <img
             src="/portrait-cropped-no-bg.png"
             alt=""
-            style={{ height: "100%", objectFit: "contain", objectPosition: "bottom" }}
+            style={{
+              height: "100%",
+              objectFit: "contain",
+              objectPosition: "bottom",
+            }}
           />
         </div>
       </div>
 
       {/* Text block — pinned to bottom, slides up on scroll */}
       <motion.div
+        className={styles.heroText}
         style={{
           position: "absolute",
-          bottom: 0,
           left: 0,
           right: 0,
           y: textY,
@@ -70,12 +76,16 @@ export default function HeroSection() {
         }}
       >
         <div
+          className={styles.heroTextInner}
           style={{
             padding: "0 clamp(24px, 6vw, 80px) clamp(32px, 5vw, 52px)",
           }}
         >
           {/* Eyebrow */}
-          <div style={{ overflow: "hidden", marginBottom: 6 }}>
+          <div
+            className={styles.heroEyebrow}
+            style={{ overflow: "hidden", marginBottom: 6 }}
+          >
             <motion.p
               initial={{ y: "130%" }}
               animate={{ y: 0 }}
@@ -94,7 +104,7 @@ export default function HeroSection() {
           </div>
 
           {/* Name — single curtain, full width */}
-          <div style={{ overflow: "hidden" }}>
+          <div className={styles.heroName} style={{ overflow: "hidden" }}>
             <motion.h1
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -114,7 +124,10 @@ export default function HeroSection() {
           </div>
 
           {/* Tagline */}
-          <div style={{ overflow: "hidden", marginTop: 14 }}>
+          <div
+            className={styles.heroTagline}
+            style={{ overflow: "hidden", marginTop: 14 }}
+          >
             <motion.p
               initial={{ y: "110%" }}
               animate={{ y: 0 }}
@@ -129,11 +142,13 @@ export default function HeroSection() {
                 margin: 0,
               }}
             >
-              Interactive data visualisation · React &amp; TypeScript · Performance-first
+              Design systems · Interactive data visualisation · React &amp;
+              TypeScript
             </motion.p>
           </div>
         </div>
       </motion.div>
+
     </section>
   );
 }

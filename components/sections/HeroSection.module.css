@@ -1,0 +1,25 @@
+@media (min-width: 769px) {
+  .heroText {
+    bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroText {
+    top: 20vh;
+    bottom: auto;
+  }
+  .heroTextInner {
+    padding-top: 0;
+    padding-bottom: clamp(32px, 5vw, 52px);
+  }
+  .heroEyebrow {
+    margin-bottom: 2rem;
+  }
+  .heroName {
+    margin-bottom: 2rem;
+  }
+  .heroTagline {
+    margin-top: 2rem;
+  }
+}
