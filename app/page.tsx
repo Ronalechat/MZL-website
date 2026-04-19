@@ -1,5 +1,6 @@
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
+import ExperienceSection from "@/components/sections/ExperienceSection";
 import LinksSection from "@/components/sections/LinksSection";
 
 export const metadata = {
@@ -10,9 +11,10 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main style={{ background: "#080c10", minHeight: "100dvh" }}>
+    <main>
       <HeroSection />
       <AboutSection />
+      <ExperienceSection />
       <LinksSection />
     </main>
   );
