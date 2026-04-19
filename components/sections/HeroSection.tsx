@@ -45,16 +45,14 @@ export default function HeroSection() {
         <div
           style={{
             position: "relative",
-            width: "clamp(220px, 38vw, 520px)",
+            width: "clamp(680px, 66vw, 888px)",
             height: "100%",
           }}
         >
-          <Image
+          <img
             src="/portrait-cropped-no-bg.png"
             alt=""
-            fill
-            priority
-            style={{ objectFit: "contain", objectPosition: "center 20%" }}
+            style={{ height: "100%", objectFit: "contain", objectPosition: "bottom" }}
           />
         </div>
       </div>
