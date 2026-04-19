@@ -122,13 +122,14 @@ export default function HeroSection() {
               style={{
                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                 fontSize: "clamp(13px, 1.2vw, 16px)",
-                color: "rgba(255,255,255,0.65)",
+                backgroundColor: "rgba(60, 60, 60, 0.3)",
+                color: "white",
                 lineHeight: 1.65,
                 maxWidth: 420,
                 margin: 0,
               }}
             >
-              Interactive data visualisation · React &amp; TypeScript · Performance-first.
+              Interactive data visualisation · React &amp; TypeScript · Performance-first
             </motion.p>
           </div>
         </div>
