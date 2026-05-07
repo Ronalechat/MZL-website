@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import styles from './HeroSection.module.css';
 
-const GREEN = "#4F7B35";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function HeroSection() {
@@ -16,9 +15,16 @@ export default function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  // Text slides up and fades as you scroll out of the hero
+  // Text slides up and fades as you scroll out
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-77%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // Portrait drifts upward slightly and scales in — opposite to text
+  const portraitY = useTransform(scrollYProgress, [0, 1], ["0%", "6%"]);
+  const portraitScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+
+  // Scroll indicator fades out early
+  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
 
   return (
     <section
@@ -27,13 +33,13 @@ export default function HeroSection() {
       style={{
         position: "relative",
         minHeight: "100dvh",
-        background: GREEN,
+        background: "var(--color-brand)",
         overflow: "hidden",
       }}
     >
 
-      {/* Portrait — centered, no background treatment, green shows through */}
-      <div
+      {/* Portrait — parallax scale + drift */}
+      <motion.div
         aria-hidden
         style={{
           position: "absolute",
@@ -42,6 +48,9 @@ export default function HeroSection() {
           alignItems: "center",
           justifyContent: "center",
           pointerEvents: "none",
+          y: portraitY,
+          scale: portraitScale,
+          transformOrigin: "center bottom",
         }}
       >
         <div
@@ -51,17 +60,18 @@ export default function HeroSection() {
             height: "100%",
           }}
         >
-          <img
+          <Image
             src="/portrait-cropped-no-bg.png"
             alt=""
+            fill
             style={{
-              height: "100%",
               objectFit: "contain",
               objectPosition: "bottom",
             }}
+            priority
           />
         </div>
-      </div>
+      </motion.div>
 
       {/* Text block — pinned to bottom, slides up on scroll */}
       <motion.div
@@ -103,7 +113,7 @@ export default function HeroSection() {
             </motion.p>
           </div>
 
-          {/* Name — single curtain, full width */}
+          {/* Name */}
           <div className={styles.heroName} style={{ overflow: "hidden" }}>
             <motion.h1
               initial={{ y: "100%" }}
@@ -114,7 +124,7 @@ export default function HeroSection() {
                 fontSize: "clamp(80px, 15vw, 210px)",
                 lineHeight: 0.88,
                 letterSpacing: "0.01em",
-                color: "#FFFFFF",
+                color: "#ffffff",
                 margin: 0,
                 whiteSpace: "nowrap",
               }}
@@ -135,11 +145,14 @@ export default function HeroSection() {
               style={{
                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                 fontSize: "clamp(13px, 1.2vw, 16px)",
-                backgroundColor: "rgba(60, 60, 60, 0.3)",
+                backgroundColor: "rgba(0,0,0,0.18)",
                 color: "white",
                 lineHeight: 1.65,
                 maxWidth: 420,
                 margin: 0,
+                padding: "6px 14px",
+                borderRadius: "2px",
+                display: "inline-block",
               }}
             >
               Design systems · Interactive data visualisation · React &amp;
@@ -147,6 +160,44 @@ export default function HeroSection() {
             </motion.p>
           </div>
         </div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        style={{
+          position: "absolute",
+          bottom: "2rem",
+          right: "clamp(24px, 6vw, 80px)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          opacity: indicatorOpacity,
+          zIndex: 10,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.52rem",
+            letterSpacing: "0.3em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.4)",
+            writingMode: "vertical-rl",
+          }}
+        >
+          Scroll
+        </span>
+        <motion.div
+          animate={{ scaleY: [0.4, 1, 0.4] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            width: 1,
+            height: 40,
+            background: "rgba(255,255,255,0.3)",
+            transformOrigin: "top",
+          }}
+        />
       </motion.div>
 
     </section>

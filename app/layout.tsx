@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, DM_Sans, JetBrains_Mono } from "next/font/google";
+import Navigation from "@/components/layout/Navigation";
+import Footer from "@/components/layout/Footer";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -45,7 +48,11 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-[var(--color-bg)] text-[var(--color-text)] min-h-dvh overflow-x-hidden antialiased">
-        {children}
+        <SmoothScrollProvider>
+          <Navigation />
+          {children}
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

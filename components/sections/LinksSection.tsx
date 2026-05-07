@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 
-const GREEN = "#4F7B35";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PROJECTS = [
@@ -11,10 +11,11 @@ const PROJECTS = [
     number: "01",
     title: "P!nga Photography",
     description:
-      "A comissioned portfolio and booking website for local Sydney artist and photographer Paul Pinga Matereke. Shows a selection ofphotography, shot on film and digital.",
+      "A commissioned portfolio and booking website for local Sydney artist and photographer Paul Pinga Matereke. Shows a selection of photography, shot on film and digital.",
     href: "https://pinga.photos",
     label: "pinga.photos",
     tags: ["Next.js", "Photography", "Design systems", "CMS"],
+    previewSrc: "https://picsum.photos/seed/pinga/720/480",
   },
   {
     number: "02",
@@ -24,6 +25,7 @@ const PROJECTS = [
     href: "https://demos.mzl-au.dev",
     label: "demos.mzl-au.dev",
     tags: ["D3 v7", "TanStack", "React 19", "Canvas 2D"],
+    previewSrc: "https://picsum.photos/seed/finviz/720/480",
   },
   {
     number: "03",
@@ -33,6 +35,7 @@ const PROJECTS = [
     href: "https://storybook.mzl-au.dev",
     label: "storybook.mzl-au.dev",
     tags: ["Storybook", "React", "TypeScript"],
+    previewSrc: "https://picsum.photos/seed/storybook/720/480",
   },
 ] as const;
 
@@ -45,9 +48,9 @@ export default function LinksSection() {
       id="projects"
       ref={ref}
       style={{
-        background: "#FAFAF7",
+        background: "var(--color-bg-editorial)",
         padding: "clamp(64px, 10vw, 120px) clamp(24px, 6vw, 96px)",
-        borderTop: "1px solid #E8E5DC",
+        borderTop: "1px solid var(--color-border-editorial)",
       }}
     >
       <div style={{ maxWidth: 860, margin: "0 auto" }}>
@@ -60,7 +63,7 @@ export default function LinksSection() {
             fontSize: "0.6rem",
             letterSpacing: "0.35em",
             textTransform: "uppercase",
-            color: GREEN,
+            color: "var(--color-brand)",
             marginBottom: 32,
           }}
         >
@@ -77,7 +80,7 @@ export default function LinksSection() {
               fontSize: "clamp(44px, 7vw, 100px)",
               lineHeight: 0.92,
               letterSpacing: "0.01em",
-              color: "#1A1A1A",
+              color: "var(--color-text-editorial)",
               margin: 0,
             }}
           >
@@ -98,7 +101,7 @@ export default function LinksSection() {
           ))}
         </div>
 
-        {/* Footer */}
+        {/* Footer strip */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -106,7 +109,7 @@ export default function LinksSection() {
           style={{
             marginTop: 56,
             paddingTop: 28,
-            borderTop: "1px solid #E8E5DC",
+            borderTop: "1px solid var(--color-border-editorial)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -120,10 +123,10 @@ export default function LinksSection() {
               fontSize: "0.6rem",
               letterSpacing: "0.15em",
               textTransform: "uppercase",
-              color: "#AAA",
+              color: "var(--color-text-dim-warm)",
             }}
           >
-            Michael Lin · Sydney · 2025
+            Michael Lin · Sydney · 2026
           </span>
           <a
             href="mailto:hi@mzl.au"
@@ -132,22 +135,51 @@ export default function LinksSection() {
               fontSize: "0.6rem",
               letterSpacing: "0.15em",
               textTransform: "uppercase",
-              color: GREEN,
+              color: "var(--color-brand)",
               textDecoration: "none",
               transition: "opacity 0.2s",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "0.65";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "1";
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.65"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
           >
             hi@mzl.au →
           </a>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+function MagneticArrow({ hovered }: { hovered: boolean }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const arrowX = useTransform(x, (v) => v * 0.35);
+  const arrowY = useTransform(y, (v) => v * 0.35);
+
+  return (
+    <motion.svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      style={{
+        x: arrowX,
+        y: arrowY,
+        color: hovered ? "var(--color-brand)" : "var(--color-text-dim-warm)",
+        transition: "color 0.2s",
+      }}
+      animate={{ x: hovered ? 3 : 0 }}
+      transition={{ duration: 0.18 }}
+    >
+      <path
+        d="M4 10h12M11 5l5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </motion.svg>
   );
 }
 
@@ -165,12 +197,13 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
+          position: "relative",
           display: "grid",
           gridTemplateColumns: "auto 1fr auto",
           gap: "clamp(16px, 3vw, 40px)",
           alignItems: "start",
           padding: "clamp(20px, 3vw, 28px) 0",
-          borderBottom: `1px solid ${hovered ? "#CECAC0" : "#E8E5DC"}`,
+          borderBottom: `1px solid ${hovered ? "var(--color-text-dim-warm)" : "var(--color-border-editorial)"}`,
           cursor: "pointer",
           transition: "border-color 0.2s",
         }}
@@ -181,7 +214,7 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
             fontFamily: "var(--font-mono, monospace)",
             fontSize: "0.6rem",
             letterSpacing: "0.15em",
-            color: "#BBB",
+            color: "var(--color-text-dim-warm)",
             paddingTop: 5,
             minWidth: 24,
           }}
@@ -196,7 +229,7 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
               fontFamily: "var(--font-display, 'Bebas Neue', sans-serif)",
               fontSize: "clamp(22px, 3vw, 34px)",
               letterSpacing: "0.03em",
-              color: hovered ? GREEN : "#1A1A1A",
+              color: hovered ? "var(--color-brand)" : "var(--color-text-editorial)",
               transition: "color 0.2s",
               margin: "0 0 8px",
               lineHeight: 1,
@@ -208,7 +241,7 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
             style={{
               fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
               fontSize: "clamp(13px, 1.1vw, 15px)",
-              color: "#666",
+              color: "var(--color-text-subtle)",
               lineHeight: 1.65,
               maxWidth: 520,
               marginBottom: 12,
@@ -225,8 +258,8 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
                   fontSize: "0.52rem",
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "#999",
-                  border: "1px solid #DDD",
+                  color: "var(--color-text-dim-warm)",
+                  border: "1px solid var(--color-border-editorial)",
                   padding: "3px 7px",
                 }}
               >
@@ -236,7 +269,7 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
           </div>
         </div>
 
-        {/* Arrow */}
+        {/* Arrow + label */}
         <div
           style={{
             paddingTop: 4,
@@ -244,28 +277,16 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
-            gap: 4,
+            gap: 6,
           }}
         >
-          <motion.span
-            animate={{ x: hovered ? 4 : 0 }}
-            transition={{ duration: 0.18 }}
-            style={{
-              fontFamily: "var(--font-mono, monospace)",
-              fontSize: 18,
-              color: hovered ? GREEN : "#CCC",
-              transition: "color 0.2s",
-            }}
-            aria-hidden
-          >
-            →
-          </motion.span>
+          <MagneticArrow hovered={hovered} />
           <span
             style={{
               fontFamily: "var(--font-mono, monospace)",
               fontSize: "0.55rem",
               letterSpacing: "0.1em",
-              color: hovered ? GREEN : "#AAA",
+              color: hovered ? "var(--color-brand)" : "var(--color-text-dim-warm)",
               transition: "color 0.2s",
               whiteSpace: "nowrap",
             }}
@@ -273,6 +294,39 @@ function ProjectRow({ project }: { project: (typeof PROJECTS)[number] }) {
             {project.label}
           </span>
         </div>
+
+        {/* Hover preview image */}
+        {"previewSrc" in project && project.previewSrc && (
+          <motion.div
+            initial={false}
+            animate={{
+              clipPath: hovered
+                ? "inset(0% 0% 0% 0%)"
+                : "inset(0% 100% 0% 0%)",
+              opacity: hovered ? 1 : 0,
+            }}
+            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: "absolute",
+              right: 0,
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "clamp(200px, 30vw, 320px)",
+              height: 200,
+              overflow: "hidden",
+              pointerEvents: "none",
+              zIndex: 20,
+            }}
+          >
+            <Image
+              src={project.previewSrc}
+              alt={`${project.title} preview`}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="320px"
+            />
+          </motion.div>
+        )}
       </div>
     </a>
   );

@@ -1,7 +1,9 @@
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
+import SkillsSection from "@/components/sections/SkillsSection";
 import LinksSection from "@/components/sections/LinksSection";
+import ContactSection from "@/components/sections/ContactSection";
 
 export const metadata = {
   title: "Michael Lin — Frontend Engineer",
@@ -15,7 +17,9 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <ExperienceSection />
+      <SkillsSection />
       <LinksSection />
+      <ContactSection />
     </main>
   );
 }

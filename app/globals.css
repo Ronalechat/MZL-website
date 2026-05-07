@@ -3,6 +3,16 @@
 /* ─── Design Tokens ─────────────────────────────────────────────────────── */
 
 :root {
+  /* ── Warm editorial palette (active site) ──────────────────────────── */
+  --color-brand:            #4F7B35;   /* primary green accent */
+  --color-bg-editorial:     #FAFAF7;   /* off-white section bg */
+  --color-border-editorial: #E8E5DC;   /* warm section dividers */
+  --color-text-editorial:   #1A1A1A;   /* near-black headings */
+  --color-text-body:        #444444;   /* body copy */
+  --color-text-subtle:      #666666;   /* secondary copy */
+  --color-text-dim-warm:    #AAAAAA;   /* metadata / decorative labels */
+
+  /* ── CRT / archive palette (kept for _archive components) ─────────── */
   /* Surfaces */
   --color-bg:              #050d14;
   --color-surface:         #0d1f2d;
