@@ -1,3 +1,28 @@
+.heroLoader {
+  position: absolute;
+  left: clamp(24px, 6vw, 80px);
+  bottom: clamp(32px, 5vw, 52px);
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #ffffff;
+}
+
+.loaderMark {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: 0.9;
+  letter-spacing: 0.08em;
+}
+
+.loaderRule {
+  width: clamp(56px, 9vw, 116px);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transform-origin: left center;
+}
+
 @media (min-width: 769px) {
   .heroText {
     bottom: 0;
@@ -21,5 +46,10 @@
   }
   .heroTagline {
     margin-top: 2rem;
+  }
+
+  .heroLoader {
+    top: 20vh;
+    bottom: auto;
   }
 }

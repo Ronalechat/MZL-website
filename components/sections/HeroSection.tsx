@@ -1,19 +1,54 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import styles from './HeroSection.module.css';
+import styles from "./HeroSection.module.css";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const LINE_REVEAL = {
+  hidden: { y: "115%" },
+  visible: { y: 0 },
+};
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [imageReady, setImageReady] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fallback = window.setTimeout(() => {
+      if (!cancelled) {
+        setImageReady(true);
+        setFontsReady(true);
+      }
+    }, 1800);
+
+    if ("fonts" in document) {
+      document.fonts.ready
+        .then(() => {
+          if (!cancelled) setFontsReady(true);
+        })
+        .catch(() => {
+          if (!cancelled) setFontsReady(true);
+        });
+    } else {
+      setFontsReady(true);
+    }
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(fallback);
+    };
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
+
+  const heroReady = imageReady && fontsReady;
 
   // Text slides up and fades as you scroll out
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-77%"]);
@@ -37,10 +72,38 @@ export default function HeroSection() {
         overflow: "hidden",
       }}
     >
+      <motion.div
+        aria-hidden
+        className={styles.heroLoader}
+        initial={false}
+        animate={{
+          opacity: heroReady ? 0 : 1,
+          y: heroReady ? -8 : 0,
+          pointerEvents: heroReady ? "none" : "auto",
+        }}
+        transition={{ duration: 0.35, ease: EASE }}
+      >
+        <span className={styles.loaderMark}>MZL</span>
+        <motion.span
+          className={styles.loaderRule}
+          animate={{ scaleX: heroReady ? 1 : [0.18, 1, 0.18] }}
+          transition={{
+            duration: 1.3,
+            repeat: heroReady ? 0 : Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </motion.div>
 
       {/* Portrait — parallax scale + drift */}
       <motion.div
         aria-hidden
+        initial={false}
+        animate={{
+          opacity: heroReady ? 1 : 0,
+          filter: heroReady ? "blur(0px)" : "blur(8px)",
+        }}
+        transition={{ duration: 0.65, ease: EASE }}
         style={{
           position: "absolute",
           inset: 0,
@@ -68,7 +131,9 @@ export default function HeroSection() {
               objectFit: "contain",
               objectPosition: "bottom",
             }}
-            priority
+            preload
+            onLoad={() => setImageReady(true)}
+            onError={() => setImageReady(true)}
           />
         </div>
       </motion.div>
@@ -81,7 +146,7 @@ export default function HeroSection() {
           left: 0,
           right: 0,
           y: textY,
-          opacity: textOpacity,
+          opacity: heroReady ? textOpacity : 0,
           zIndex: 10,
         }}
       >
@@ -97,9 +162,10 @@ export default function HeroSection() {
             style={{ overflow: "hidden", marginBottom: 6 }}
           >
             <motion.p
-              initial={{ y: "130%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.55, delay: 0.15, ease: EASE }}
+              variants={LINE_REVEAL}
+              initial="hidden"
+              animate={heroReady ? "visible" : "hidden"}
+              transition={{ duration: 0.55, delay: 0.08, ease: EASE }}
               style={{
                 fontFamily: "var(--font-mono, monospace)",
                 fontSize: "0.6rem",
@@ -116,9 +182,10 @@ export default function HeroSection() {
           {/* Name */}
           <div className={styles.heroName} style={{ overflow: "hidden" }}>
             <motion.h1
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.85, delay: 0.3, ease: EASE }}
+              variants={LINE_REVEAL}
+              initial="hidden"
+              animate={heroReady ? "visible" : "hidden"}
+              transition={{ duration: 0.85, delay: 0.18, ease: EASE }}
               style={{
                 fontFamily: "var(--font-display, 'Bebas Neue', sans-serif)",
                 fontSize: "clamp(80px, 15vw, 210px)",
@@ -139,9 +206,10 @@ export default function HeroSection() {
             style={{ overflow: "hidden", marginTop: 14 }}
           >
             <motion.p
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
+              variants={LINE_REVEAL}
+              initial="hidden"
+              animate={heroReady ? "visible" : "hidden"}
+              transition={{ duration: 0.6, delay: 0.42, ease: EASE }}
               style={{
                 fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
                 fontSize: "clamp(13px, 1.2vw, 16px)",
