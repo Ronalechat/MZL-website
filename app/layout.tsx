@@ -46,6 +46,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${bebasNeue.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
     >
       <body className="bg-[var(--color-bg)] text-[var(--color-text)] min-h-dvh overflow-x-hidden antialiased">
         <SmoothScrollProvider>

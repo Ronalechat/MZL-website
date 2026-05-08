@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import { profile } from "@/lib/data/profile";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -15,7 +16,7 @@ const PROJECTS = [
     href: "https://pinga.photos",
     label: "pinga.photos",
     tags: ["Next.js", "Photography", "Design systems", "CMS"],
-    previewSrc: "https://picsum.photos/seed/pinga/720/480",
+    previewSrc: "/previews/pinga-photography.jpg",
   },
   {
     number: "02",
@@ -25,7 +26,7 @@ const PROJECTS = [
     href: "https://demos.mzl-au.dev",
     label: "demos.mzl-au.dev",
     tags: ["D3 v7", "TanStack", "React 19", "Canvas 2D"],
-    previewSrc: "https://picsum.photos/seed/finviz/720/480",
+    previewSrc: "/previews/finviz-demo.jpg",
   },
   {
     number: "03",
@@ -35,7 +36,7 @@ const PROJECTS = [
     href: "https://storybook.mzl-au.dev",
     label: "storybook.mzl-au.dev",
     tags: ["Storybook", "React", "TypeScript"],
-    previewSrc: "https://picsum.photos/seed/storybook/720/480",
+    previewSrc: "/previews/storybook.jpg",
   },
 ] as const;
 
@@ -129,7 +130,9 @@ export default function LinksSection() {
             Michael Lin · Sydney · 2026
           </span>
           <a
-            href="mailto:hi@mzl.au"
+            href={profile.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               fontFamily: "var(--font-mono, monospace)",
               fontSize: "0.6rem",
@@ -142,7 +145,7 @@ export default function LinksSection() {
             onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.65"; }}
             onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
           >
-            hi@mzl.au →
+            LinkedIn →
           </a>
         </motion.div>
       </div>

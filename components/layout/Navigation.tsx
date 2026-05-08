@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { profile } from "@/lib/data/profile";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
   { label: "Work", href: "#experience" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navigation() {
@@ -22,66 +22,114 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const textColor = pastHero ? "var(--color-text-editorial)" : "#ffffff";
-  const mutedColor = pastHero ? "var(--color-text-dim-warm)" : "rgba(255,255,255,0.55)";
-
   return (
     <motion.header
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="fixed top-0 left-0 right-0 z-[40] transition-all duration-300"
       style={{
-        background: pastHero ? "rgba(250, 250, 247, 0.92)" : "transparent",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 40,
+        background: pastHero ? "rgba(250,250,247,0.95)" : "transparent",
         backdropFilter: pastHero ? "blur(12px)" : "none",
         borderBottom: pastHero ? "1px solid var(--color-border-editorial)" : "none",
+        transition: "background 0.35s ease, border-color 0.35s ease",
       }}
     >
       <nav
-        className="max-w-[1400px] mx-auto px-8 lg:px-16 h-16 flex items-center justify-between"
+        style={{
+          maxWidth: 1400,
+          margin: "0 auto",
+          padding: "0 clamp(24px, 6vw, 80px)",
+          height: 64,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
         aria-label="Main navigation"
       >
-        {/* Monogram mark */}
+        {/* Monogram */}
         <a
           href="#hero"
-          className="font-display text-2xl tracking-wider transition-colors duration-300"
-          style={{ color: textColor }}
           aria-label="MZL — back to top"
+          style={{
+            fontFamily: "var(--font-display, 'Bebas Neue', sans-serif)",
+            fontSize: "1.5rem",
+            letterSpacing: "0.08em",
+            color: pastHero ? "var(--color-text-editorial)" : "#ffffff",
+            textDecoration: "none",
+            transition: "color 0.3s ease",
+          }}
         >
           MZL
         </a>
 
-        {/* Nav links */}
-        <div className="hidden sm:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="font-mono text-[0.65rem] tracking-[0.2em] uppercase transition-colors duration-300 hover:opacity-100"
-              style={{ color: mutedColor }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
+        {/* Right side: links + CTA */}
+        <div style={{ display: "flex", alignItems: "center", gap: "clamp(20px, 3vw, 40px)" }}>
+          {/* Nav links — hidden on small screens */}
+          <div
+            style={{ display: "flex", gap: "clamp(20px, 3vw, 36px)" }}
+            className="hidden sm:flex"
+          >
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                style={{
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: pastHero ? "var(--color-text-subtle)" : "rgba(255,255,255,0.65)",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = pastHero ? "var(--color-brand)" : "#ffffff";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = pastHero
+                    ? "var(--color-text-subtle)"
+                    : "rgba(255,255,255,0.65)";
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
 
-        {/* Terminal shortcut hint */}
-        <div className="hidden sm:flex items-center gap-1.5">
-          <kbd
-            className="font-mono text-[0.6rem] px-1.5 py-0.5 border rounded transition-colors duration-300"
+          {/* CTA */}
+          <a
+            href={profile.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              borderColor: pastHero ? "var(--color-border-editorial)" : "rgba(255,255,255,0.2)",
-              color: mutedColor,
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: "0.6rem",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              padding: "7px 14px",
+              border: pastHero
+                ? "1px solid var(--color-brand)"
+                : "1px solid rgba(255,255,255,0.5)",
+              background: pastHero ? "var(--color-brand)" : "transparent",
+              color: "#ffffff",
+              transition: "background 0.25s ease, border-color 0.25s ease, opacity 0.2s ease",
+              whiteSpace: "nowrap",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "0.8";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = "1";
             }}
           >
-            ⌃K
-          </kbd>
-          <span
-            className="font-mono text-[0.6rem] tracking-widest uppercase transition-colors duration-300"
-            style={{ color: mutedColor }}
-          >
-            terminal
-          </span>
+            Get in touch →
+          </a>
         </div>
       </nav>
     </motion.header>

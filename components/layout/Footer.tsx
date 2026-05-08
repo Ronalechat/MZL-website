@@ -1,22 +1,57 @@
+"use client";
+
+import { profile } from "@/lib/data/profile";
+
 export default function Footer() {
   return (
     <footer
-      className="py-8 px-8 lg:px-16"
-      style={{ borderTop: "1px solid var(--color-border)", background: "var(--color-bg)" }}
+      style={{
+        background: "var(--color-bg-editorial)",
+        borderTop: "1px solid var(--color-border-editorial)",
+        padding: "28px clamp(24px, 6vw, 80px)",
+      }}
     >
-      <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div
+        style={{
+          maxWidth: 1400,
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          flexWrap: "wrap",
+        }}
+      >
         <span
-          className="font-mono text-[0.65rem] tracking-[0.2em] uppercase"
-          style={{ color: "var(--color-text-muted)" }}
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.6rem",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "var(--color-text-dim-warm)",
+          }}
         >
-          © 2026 MZL — Built with Next.js & obsession
+          Michael Lin · Frontend Engineer · Sydney · © 2026
         </span>
-        <span
-          className="font-mono text-[0.65rem] tracking-[0.2em] uppercase"
-          style={{ color: "var(--color-text-muted)" }}
+
+        <a
+          href={profile.linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.6rem",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "var(--color-brand)",
+            textDecoration: "none",
+            transition: "opacity 0.2s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.65"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
         >
-          <span style={{ color: "var(--color-primary)" }}>⌃K</span> — terminal
-        </span>
+          LinkedIn →
+        </a>
       </div>
     </footer>
   );

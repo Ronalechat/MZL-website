@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { profile } from "@/lib/data/profile";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -36,7 +37,7 @@ export default function ContactSection() {
         </motion.p>
 
         {/* Heading */}
-        <div style={{ overflow: "hidden", marginBottom: 48 }}>
+        <div style={{ overflow: "hidden", marginBottom: 32 }}>
           <motion.h2
             initial={{ y: "100%" }}
             animate={inView ? { y: 0 } : {}}
@@ -54,15 +55,36 @@ export default function ContactSection() {
           </motion.h2>
         </div>
 
-        {/* Links */}
+        {/* Sub-copy */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55, delay: 0.3, ease: EASE }}
+          style={{
+            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+            fontSize: "clamp(14px, 1.2vw, 17px)",
+            color: "rgba(255,255,255,0.7)",
+            lineHeight: 1.65,
+            maxWidth: 460,
+            marginBottom: 40,
+          }}
+        >
+          Open to freelance projects, full-time roles, and interesting
+          collaborations. The best way to reach me is via LinkedIn.
+        </motion.p>
+
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.35 }}
+          transition={{ duration: 0.6, delay: 0.45, ease: EASE }}
           style={{ display: "flex", flexDirection: "column", gap: 16 }}
         >
+          {/* Primary — LinkedIn */}
           <a
-            href="mailto:hi@mzl.au"
+            href={profile.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               fontFamily: "var(--font-display, 'Bebas Neue', sans-serif)",
               fontSize: "clamp(24px, 4vw, 52px)",
@@ -72,7 +94,7 @@ export default function ContactSection() {
               display: "inline-block",
               borderBottom: "2px solid rgba(255,255,255,0.25)",
               paddingBottom: 4,
-              transition: "border-color 0.2s, opacity 0.2s",
+              transition: "border-color 0.2s",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "#ffffff";
@@ -81,11 +103,12 @@ export default function ContactSection() {
               e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
             }}
           >
-            hi@mzl.au
+            Connect on LinkedIn →
           </a>
 
+          {/* Secondary — GitHub */}
           <a
-            href="https://github.com/ronalechat"
+            href={profile.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -100,12 +123,8 @@ export default function ContactSection() {
               gap: 8,
               transition: "color 0.2s",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "#ffffff";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "rgba(255,255,255,0.55)";
-            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "#ffffff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.55)"; }}
           >
             github.com/ronalechat →
           </a>

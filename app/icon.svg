@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="24" fill="#4F7B35"/>
+  <rect x="7" y="7" width="114" height="114" rx="19" fill="none" stroke="#FAFAF7" stroke-opacity=".24" stroke-width="3"/>
+  <text
+    x="64"
+    y="75"
+    fill="#FAFAF7"
+    font-family="Arial Narrow, Arial, sans-serif"
+    font-size="44"
+    font-weight="700"
+    letter-spacing="3"
+    text-anchor="middle"
+  >MZL</text>
+</svg>
